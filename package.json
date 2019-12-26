@@ -1,0 +1,131 @@
+{
+  "name": "templete-react-npm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.umd.js",
+  "module": "lib/index.es5.js",
+  "files": [
+    "lib",
+    "src",
+    "example"
+  ],
+  "scripts": {
+    "start": "rollup -c rollup.config.js -w",
+    "prebuild": "rimraf lib",
+    "build": "npm run format && npm run lint &&  rollup -c rollup.config.js",
+    "test": "jest --coverage",
+    "lint": "eslint --ext .jsx,.js src --fix",
+    "format": "prettier ./src/** --write",
+    "prepublishOnly": "npm run build",
+    "precommit": "lint-staged",
+    "commit": "git-cz"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    },
+    "testEnvironment": "node",
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.jsx?$",
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 95,
+        "lines": 95,
+        "statements": 95
+      }
+    },
+    "collectCoverageFrom": [
+      "src/*.js"
+    ]
+  },
+  "lint-staged": {
+    "src/**/*.jsx?": [
+      "npm run lint",
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog",
+      "maxHeaderWidth": 100,
+      "maxLineWidth": 100,
+      "defaultType": "",
+      "defaultScope": "",
+      "defaultSubject": "",
+      "defaultBody": "",
+      "defaultIssues": ""
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CN-kicoyu/templete-react-npm.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CN-kicoyu/templete-react-npm/issues"
+  },
+  "homepage": "https://github.com/CN-kicoyu/templete-react-npm#readme",
+  "peerDependencies": {
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.7.7",
+    "@babel/core": "^7.7.7",
+    "@babel/plugin-proposal-class-properties": "^7.7.4",
+    "@babel/plugin-proposal-decorators": "^7.7.4",
+    "@babel/plugin-syntax-dynamic-import": "^7.7.4",
+    "@babel/plugin-transform-arrow-functions": "^7.7.4",
+    "@babel/plugin-transform-object-assign": "^7.7.4",
+    "@babel/plugin-transform-runtime": "^7.7.6",
+    "@babel/preset-env": "^7.7.7",
+    "@babel/preset-react": "^7.7.4",
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "babel-eslint": "^10.0.3",
+    "camelcase": "^5.3.1",
+    "commitizen": "^4.0.3",
+    "cssnano": "^4.1.10",
+    "cz-conventional-changelog": "^3.0.2",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.8.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^2.3.0",
+    "husky": "^3.1.0",
+    "lint-staged": "^9.5.0",
+    "node-sass": "^4.13.0",
+    "postcss-cssnext": "^3.1.0",
+    "postcss-nested": "^4.2.1",
+    "prettier": "^1.19.1",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-eslint": "^7.0.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-peer-deps-external": "^2.2.0",
+    "rollup-plugin-postcss": "^2.0.3",
+    "rollup-plugin-terser": "^5.1.3"
+  }
+}
