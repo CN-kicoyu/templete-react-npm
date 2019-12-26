@@ -17,7 +17,6 @@
     "lint": "eslint --ext .jsx,.js src --fix",
     "format": "prettier ./src/** --write",
     "prepublishOnly": "npm run build",
-    "precommit": "lint-staged",
     "commit": "git-cz"
   },
   "prettier": {
@@ -48,9 +47,15 @@
       "src/*.js"
     ]
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
+    }
+  },
   "lint-staged": {
-    "src/**/*.jsx?": [
-      "npm run lint",
+    "src/**/*.{js,jsx}": [
+      "eslint --fix",
       "prettier --write",
       "git add"
     ]

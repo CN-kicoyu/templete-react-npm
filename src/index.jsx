@@ -16,7 +16,7 @@ class App extends React.Component {
     const { value } = this.state
     return (
       <div style={{ display: 'flex' }}>
-        <div style={{ flex: 1 }} className='hha'>
+        <div style={{ flex: 1 }} className="hha">
           {' '}
           99999
         </div>
