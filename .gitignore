@@ -7,3 +7,4 @@ coverage
 .idea
 .awcache
 .rpt2_cache
+example/dist

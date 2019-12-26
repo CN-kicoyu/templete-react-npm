@@ -1,39 +1,26 @@
-import camelcase from 'camelcase'
 import json from 'rollup-plugin-json';
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
-import external from 'rollup-plugin-peer-deps-external'
+import alias from 'rollup-plugin-alias';
 import nested from "postcss-nested";
 import postcss from 'rollup-plugin-postcss';
 import cssnext from "postcss-cssnext";
 import cssnano from "cssnano";
+import replace from 'rollup-plugin-replace'
 import {eslint} from 'rollup-plugin-eslint';
 
-import pkg from './package.json';
-
-const PKG_NAME = camelcase(pkg.name)
-
 export default {
-  input: 'src/index.jsx',
-  output: [
-    {
-      file: pkg.main,
-      format: 'umd',
-      name: PKG_NAME,
-      exports: 'named',
-    },
-    {
-      file: pkg.module,
-      format: 'es',
-    }
-  ],
   experimentalCodeSplitting: true,
   plugins: [
+    alias({
+      resolve: ['.js', '.jsx'],
+      entries: {
+        '@': '../lib',
+      }
+    }),
     json(),
-    commonjs(),
-    external(),
     eslint({
       throwOnError: true,
       throwOnWarning: true,
@@ -46,9 +33,10 @@ export default {
       plugins: [nested(), cssnext({ warnForDuplicates: false }), cssnano()],
       extract: `lib/index.css`
     }),
-    resolve({
-      mainField: ['jsnext', 'main'],
-      browser: true,
+    resolve(),
+    commonjs(),
+    replace({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
     }),
     babel({
       exclude: 'node_modules/**',
