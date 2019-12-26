@@ -9,6 +9,10 @@ const plugins = [
       "useESModules": false
     }
   ],
+  ['babel-plugin-import', {
+    libraryName: 'next',
+    style: true
+  }],
   '@babel/plugin-syntax-dynamic-import',
   '@babel/plugin-transform-object-assign',
   ["@babel/plugin-proposal-decorators", { "legacy": true }],
