@@ -16,7 +16,7 @@ import pkg from './package.json';
 const PKG_NAME = camelcase(pkg.name)
 
 export default {
-  input: 'src/index.jsx',
+  input: 'src/index.js',
   output: [
     {
       file: pkg.main,

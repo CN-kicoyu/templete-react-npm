@@ -23,20 +23,20 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader', 'postcss-loader']
       },
-      {
-        test: /\.(js|jsx)$/,
-        exclude: [/node_modules/, resolve('../lib')],
-        enforce: 'pre',
-        use: [
-          {
-            loader: 'eslint-loader', // 指定启用eslint-loader
-            options: {
-              formatter: require('eslint-friendly-formatter'),
-              emitWarning: false
-            }
-          }
-        ]
-      },
+      // {
+      //   test: /\.(js|jsx)$/,
+      //   exclude: [/node_modules/, resolve('../lib/index.umd.js')],
+      //   enforce: 'pre',
+      //   use: [
+      //     {
+      //       loader: 'eslint-loader', // 指定启用eslint-loader
+      //       options: {
+      //         formatter: require('eslint-friendly-formatter'),
+      //         emitWarning: false
+      //       }
+      //     }
+      //   ]
+      // },
       {
         test: /\.(js|jsx)$/,
         loader: 'babel-loader',
@@ -47,8 +47,12 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.json', '.jsx', '.css'],
     alias: {
-      '@': path.resolve(__dirname, '../lib')
+      '@': resolve('../lib')
     }
+  },
+  resolveLoader: {
+    modules: ['node_modules', resolve('../lib/index.es5.js')],
+    extensions: ['.js', '.json']
   },
   performance: {
     hints: 'warning',
@@ -77,7 +81,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'test',
       filename: 'index.html',
-      template: resolve("index.html"),
+      template: resolve('index.html')
     })
   ]
 }

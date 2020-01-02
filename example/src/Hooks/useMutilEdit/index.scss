@@ -1,0 +1,18 @@
+.edit {
+  &-wrap {
+    margin-bottom: 10px;
+    padding-right: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    & > div {
+      flex: 1
+    }
+  }
+  &-icon {
+    flex: 0 0 30px;
+    color: red;
+    margin-left: 20px;
+    cursor: pointer;
+  }
+}

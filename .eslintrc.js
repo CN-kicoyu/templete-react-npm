@@ -33,8 +33,10 @@ module.exports = {
   },
   rules: {
     'react/prop-types': 0,
+    "import/extensions": 0,
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'error',
+    'react/destructuring-assignment': 'off',
     'react/jsx-one-expression-per-line': 'off',
     'react/jsx-wrap-multilines': [
       'error',

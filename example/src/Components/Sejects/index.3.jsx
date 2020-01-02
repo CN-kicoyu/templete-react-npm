@@ -1,0 +1,108 @@
+import React, {useState, useEffect, useRef} from 'react'
+import { TimePicker } from 'antd';
+import MutilEdit from '../MutilEdit'
+import moment from 'moment'
+
+import './index.scss'
+
+const NAME_MAP = {
+  'ss': 'second',
+  'mm': 'minute',
+  'HH': 'hour'
+}
+
+const getTimeList = (format, time = '') => {
+  const temp = {}
+  time && format.split(':').forEach((item, index) => {
+    temp[NAME_MAP[item]] = time.split(':')[index]
+  })
+  return temp
+}
+
+// 处理新建左边界
+const getFormatVal = (val, format) => !val || typeof val === 'string'  ? val : val.format(format)
+
+const Render = ({format, onChange, value, limitStart, limitEnd}) => {
+  const [times, setTimes] = useState(value || [])
+
+  const checkDisabled = {
+    second: !format.includes('ss'),
+    minute: !format.includes('mm'),
+    hour: !format.includes('HH'),
+  }
+
+  const disabledItem = (orientation, name) => (index) => {
+    const isLeft = orientation === 'left'
+    if (isLeft) {
+      if (!times[1] && !limitStart) return false
+    } else {
+      if (!times[0]) return false
+    }
+
+    const leftList = getTimeList(format, times[0])
+    const rightList = getTimeList(format, times[1])
+    const limitStartList = getTimeList(format, limitStart)
+
+    const res = isLeft ? (rightList[name] && index > Number(rightList[name])) || (limitStartList[name] && index < Number(limitStartList[name]))  : leftList[name] && index < Number(leftList[name])
+    switch(name) {
+      case 'hour':
+        return res
+      case 'minute':
+        return (rightList.hour && rightList.hour === leftList.hour || (limitStartList.hour && limitStartList.hour === leftList.hour )) ? res : false
+      case 'second':
+        return (rightList.hour && rightList.hour === leftList.hour && rightList.minute && rightList.minute === leftList.minute) || (limitStartList.hour && limitStartList.hour === leftList.hour && limitStartList.minute && limitStartList.minute === leftList.minute) ? res : false
+      default:
+        throw new Error('Only can use hour / minute / second')
+    }
+  }
+
+  useEffect(() => {
+    if (times[1] <= times[0]) {
+      setTimes(prev => {
+        const temp = [...prev]
+        temp[1] = moment(temp[0], format, true).add(1, 's').format(format);
+        return temp
+      })
+    }
+    onChange(times)
+  }, [times[0], times[1]])
+
+  return <div className="timesegment-wrap">
+    <span className="timesegment-left">每日生效时段</span>
+    <div className="timesegment-right">
+      <TimePicker
+        disabledHours={disabledItem('left', 'hour')}
+        disabledMinutes={disabledItem('left', 'minute')}
+        disabledSeconds={disabledItem('left', 'second')}
+        format={format}
+        value={times[0]}
+        onChange={(val) => setTimes(prev => [getFormatVal(val, format), prev[1]])} />
+      <span className="divider"> - </span>
+      <TimePicker
+        disabledHours={disabledItem('right', 'hour')}
+        disabledMinutes={disabledItem('right', 'minute')}
+        disabledSeconds={disabledItem('right', 'second')}
+        format={format}
+        value={times[1]}
+        onChange={(val) => setTimes(prev => [prev[0], getFormatVal(val, format)])}/>
+    </div>
+  </div>
+}
+
+function TimeSegmentPicker(props) {
+  const {format, noCross, ...rest} = props
+
+  const handlerProps = (index) => {
+    if (!noCross || !index) return {}
+    const prevList = props.value[index-1]
+    return props.value[index] && ({ limitStart: prevList[1] ? prevList[1] : prevList[0] })
+  }
+
+  return (
+    <MutilEdit {...rest} subValue={[]} handlerProps={handlerProps}>
+      <Render format={format} onChange={props.onChange}/>
+    </MutilEdit>
+  )
+}
+
+export default TimeSegmentPicker

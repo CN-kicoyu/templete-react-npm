@@ -1,0 +1,127 @@
+.coupon {
+  &-wrap {
+    width:600px;
+    box-sizing: content-box;
+  }
+  &-content {
+    display:inline-block;
+    overflow:hidden;
+    border-radius:10px;
+    box-sizing: content-box;
+    border: 1px solid #efecec;
+    box-shadow: 0px 3px 8px 0px #ccc;
+    position: relative;
+  }
+  &-divish {
+    position: absolute;
+    left: 150px;
+    top: 0;
+    width: 0;
+    height: 85%;
+    border-right: 1px dashed #ececec;
+    z-index: 2;
+  }
+  &-left {
+    float:left;
+    width:150px;
+    height:150px;
+    position:relative;
+    box-sizing: content-box;
+    & > p {
+      text-align: center;
+    }
+    &::before{
+      content: '';
+      position: absolute;
+      top: -210px;
+      display: block;
+      right: -210px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 200px solid #fff;
+      clip: rect(auto,auto,285px,auto);
+      box-sizing: content-box;
+      background: #f7f7f7;
+      z-index: -1;
+    }
+    &::after{
+      content: '';
+      position: absolute;
+      bottom: -210px;
+      display: block;
+      right: -210px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 200px solid #fff;
+      clip: rect(135px,auto,auto,auto);
+      box-sizing: content-box;
+      background: #f7f7f7;
+      z-index: -1;
+    }
+  }
+  &-right {
+    & > p {
+      text-align: center;
+    }
+    float:left;
+    width:350px;
+    height:150px;
+    position:relative;
+    box-sizing: content-box;
+    &::before{
+      content: '';
+      box-sizing: content-box;
+      position: absolute;
+      top: -410px;
+      display: block;
+      left: -410px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 400px solid #fff;
+      clip: rect(0,auto,485px,410px);
+      background: #f7f7f7;
+      z-index: -1;
+    }
+    &::after{
+      content: '';
+      position: absolute;
+      bottom: -410px;
+      display: block;
+      left: -410px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 400px solid #fff;
+      clip: rect(335px,auto,auto,410px);
+      box-sizing: content-box;
+      background: #f7f7f7;
+      z-index: -1;
+    }
+  }
+  &-price {
+    color: red;
+    font-size: 42px;
+    font-weight: 450;
+    margin-top: 41px;
+    span {
+      font-size: 18px;
+    }
+  }
+  &-good {
+    color: #000;
+    font-size: 26px;
+    font-weight: 450;
+    margin-top: 49px;
+    span {
+      font-size: 18px;
+    }
+  }
+  &-desc {
+    color: #aaa;
+    font-size: 16px;
+    margin-top: 25px;
+  }
+}
