@@ -71,6 +71,13 @@ function WeekComponent ({dataSource: {type, list, name}, value, onChange = () =>
     setSubList(hasList)
   }, [check])
 
+  useEffect(() => {
+    if (JSON.stringify(value[name]) !== JSON.stringify(check)) {
+      setCheck(value[name])
+      onChange(name, value[name])
+    }
+  }, [JSON.stringify(value[name])])
+
   return (
     <article>
       <Comp dataSource={list} value={check} onChange={x => {
@@ -79,7 +86,7 @@ function WeekComponent ({dataSource: {type, list, name}, value, onChange = () =>
       }}/>
       {check && subList.map((item, index) => {
         return item && (
-          <section style={{marginTop: 10}}>
+          <section style={{marginTop: 10}} key={index}>
             <WeekComponent dataSource={item.subList} key={item.label} value={value} onChange={onChange} prefix={prefix}/>
           </section>
         ) || ''

@@ -1,6 +1,12 @@
 const plugins = [
   "@babel/plugin-transform-arrow-functions",
   [
+    "babel-plugin-transform-require-ignore",
+    {
+      "extensions": [".less", ".sass"]
+    }
+  ],
+  [
     "@babel/plugin-transform-runtime",
     {
       "corejs": false,
@@ -13,6 +19,7 @@ const plugins = [
     libraryName: 'antd',
     style: true
   }],
+  '@babel/plugin-transform-modules-commonjs',
   '@babel/plugin-syntax-dynamic-import',
   '@babel/plugin-transform-object-assign',
   ["@babel/plugin-proposal-decorators", { "legacy": true }],

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 // import Y from 'marketsdk'
 import { Table, TimePicker, Field, Input } from 'antd';
 import useTable from './Hooks/useTable'
@@ -29,6 +29,11 @@ function App() {
   const field = Field.useField({
     onChange: (x) => console.log(x)
   });
+  const [testVal, setTestVal] = useState({
+    test1: '整周',
+    test2: ['星期二'],
+    test5: 'qq'
+  })
   const { init, setValue, reset, getError } = field;
   const [{ dataSource }, setValue2] = useTable(data())
   // const [Hha, value] = useMutilEdit(<Demo hha="dd" className="iiii"/>, {maxNum:4, initialValue: [1,3], onChange: (x) => {
@@ -41,6 +46,18 @@ function App() {
       time: 3233
     }])}>Remove({record.id})</a>
   }
+
+  useEffect(() => {
+    const hhha = {
+      test1: '整周',
+      test2: ['星期一']
+    }
+    setTimeout(() => {
+      console.log(333333)
+      setTestVal(hhha)
+    },3000)
+  }, [])
+
   return (<div>
     <p style={{margin: '50px 0'}}>-----------DEMO----------------</p>
     <Table dataSource={dataSource}>
@@ -51,7 +68,9 @@ function App() {
     </Table>
     <p style={{margin: '50px 0'}}>------------DEMO---------------</p>
     <div style={{width: 400}}>
-      <MutilEdit {...init('test', {
+      {console.log(JSON.stringify(testVal), '---====')}
+      {/* <MutilEdit maxNum={3} value={testVal} subValue={[]} onChange={(v) => console.log(JSON.stringify(v),'232332333')}><Demo /></MutilEdit> */}
+      {/* <MutilEdit {...init('test', {
                   initValue: [['111'], ['222']],
                   props:{
                     onChange:(v)=>{
@@ -60,7 +79,7 @@ function App() {
                   }
               })} subValue={['000']} maxNum={4} renderAddNode={<h1>hhha</h1>}>
         <Demo hha="dd" className="iiii"/>
-      </MutilEdit>
+      </MutilEdit> */}
     </div>
     <p style={{margin: '50px 0'}}>--------------DEMO-------------</p>
     {/* <WeekPicker dataSource={[
@@ -122,7 +141,7 @@ function App() {
         }
       }
   })}/> */}
-    <WeekPicker dataSource={{
+    {/* <WeekPicker dataSource={{
       type: 'radio',
       name: 'test1',
       list: [
@@ -224,24 +243,109 @@ function App() {
           console.log(v, '999yyyyy')
         }
       }
-  })}/>
+  })}/> */}
+  <WeekPicker dataSource={{
+    type: 'radio',
+    name: 'test1',
+    list: [
+      {
+          value: '整周',
+          label: '整周',
+          subList: {
+            type: 'tag',
+            name: 'test2',
+            list: [
+              {
+                value: '星期一',
+                label: '星期一',
+                subList: {
+                  type: 'checkbox',
+                  name: 'test3',
+                  list: [
+                    {
+                      value: 'XXXX',
+                      label: 'XXXX'
+                    },
+                    {
+                      value: 'YYYY',
+                      label: 'YYYY',
+                      subList: {
+                        type: 'radio',
+                        name: 'test4',
+                        list: [
+                          {
+                            value: '33',
+                            label: '33'
+                          },
+                          {
+                            value: '22',
+                            label: '22'
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                value: '星期二',
+                label: '星期二',
+                subList: {
+                  type: 'radio',
+                  name: 'test5',
+                  list: [
+                    {
+                      value: 'qq',
+                      label: 'qq'
+                    },
+                    {
+                      value: 'ww',
+                      label: 'ww'
+                    }
+                  ]
+                }
+              },
+              {
+                value: '星期三',
+                label: '星期三'
+              },
+              {
+                value: '星期四',
+                label: '星期四'
+              },
+              {
+                value: '星期五',
+                label: '星期五'
+              },
+              {
+                value: '星期六',
+                label: '星期六'
+              },
+              {
+                value: '星期天',
+                label: '星期天'
+              }
+            ]
+          }
+      }, {
+          value: '周一到周五',
+          label: '周一到周五'
+      }, {
+          value: '周末',
+          label: '周末'
+      }
+  ]
+}} value={testVal} onChange={(v) => setTestVal(v)}/>
     <p style={{margin: '50px 0'}}>--------------DEMO-------------</p>
     <div style={{width: 900}}>
-      <TimeSegmentPicker maxNum={3} format="HH:mm:ss" noCross={true} {...init('tttt', {
-      // initValue: [
-      //   ['02:32:28', '03:22:32'],
-      //   ["08:32:21", "23:32:12"]
-      // ],
-      props:{
-        onChange:(v)=>{
-          console.log(v, 'ooooo')
+      {/* <TimeSegmentPicker maxNum={3} format="HH:mm:ss" value={testVal} onChange={(v)=>{
+          setTestVal(v)
         }
       }
-  })}/>
-      <TimeSegmentPicker/>
+  /> */}
     </div>
     <p style={{margin: '50px 0'}}>--------------DEMO-------------</p>
-    <CouponPreview name="车厘子商品红包" price="3" priceDesc="满0元使用" nameDesc="领取7天后有效，每人每天限领一张" />
+    <CouponPreview name="2222" price="3" priceDesc="2222" nameDesc="222222" />
     <p style={{margin: '50px 0'}}>--------------DEMO-------------</p>
     <TemplateInput templete={[
       <span style={{marginRight: 20}}>3333</span>,

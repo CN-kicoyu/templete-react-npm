@@ -1,17 +1,18 @@
-import React, {useRef, useState, useCallback} from 'react'
+import React, {useRef, useState, useCallback, useEffect} from 'react'
 import { Icon, Field } from 'antd';
 import { isArray, isEqual } from '../../_utils'
 import './index.scss'
 
-function useMutilEdit (reactDom, {
-  initialValue = [reactDom.props.value || ''],
+function useMutilEdit (reactDom = <p>This is a Demo</p>, {
+  initialValue = [reactDom.props && reactDom.props.value || ''],
   maxNum = 1,
   onChange = () => {},
-  subValue = '',
+  subValue = isArray(initialValue[0]) ? [] : '',
   handlerProps,
   renderAddNode,
   renderDeleteNode
 }) {
+  console.log(JSON.stringify(initialValue), '7777777')
   if (initialValue && !isArray(initialValue)) {
     throw new Error('initialValue must be array')
   } else {
@@ -36,7 +37,6 @@ function useMutilEdit (reactDom, {
     ref: React.createRef()
   })))
   const [value, setValue] = useState(initialValue)
-  console.log('---->000--', value)
   const field = Field.useField({
     parseName: true,
     values: {
@@ -53,16 +53,16 @@ function useMutilEdit (reactDom, {
     counter.current += 1
     keyList.current.splice(index, 0, {
       key: counter.current,
-      ref: React.createRef()
+      ref: ''
     })
   }, [])
 
   const setValueList = (newList) => {
     keyList.current = []
     setValue((prev) => {
-      prev.forEach((_, index) => {
-        field.deleteArrayValue('value', index)
-      })
+      for(let i = prev.length - 1; i >= 0; i--) {
+        field.deleteArrayValue('value', i)
+      }
       newList.forEach((_, index) => {
         field.addArrayValue('value', index, _);
         setValueKey(index)
@@ -86,6 +86,7 @@ function useMutilEdit (reactDom, {
   }
 
   const remove = (index) => {
+    console.log('322222222')
     setValue(prev => {
       keyList.current.splice(index, 1)
       const temp = [...prev]
@@ -100,13 +101,21 @@ function useMutilEdit (reactDom, {
 
   const clear = () => setValueList([reactDom.props])
 
+  console.log(value, JSON.stringify(initialValue), '7777777---')
+  useEffect(() => {
+    console.log(initialValue, JSON.stringify(initialValue),JSON.stringify(value), '8822222222')
+    if (JSON.stringify(initialValue) !== JSON.stringify(value)) {
+      setValueList(initialValue)
+    }
+  }, [JSON.stringify(initialValue)])
+
   const renderDOM = (<div>
     {value.map((item, index) => {
+      console.log(item, '-====1111')
+      // if (!item) return [<p>This is a Demo</p>, '']
       const {key, ref} = keyList.current[index]
-      return <div className="edit-wrap">
+      return <div className="edit-wrap" key={key}>
         {React.cloneElement(reactDom, {
-          key,
-          ref,
           ...field.init(`value.${index}`),
           ...handlerProps && handlerProps(index)
         })}

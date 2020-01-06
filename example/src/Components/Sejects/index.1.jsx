@@ -51,7 +51,7 @@ const Render = ({format, onChange, value, noCross}) => {
   }, [times[0], times[1]])
 
   return <div className="timesegment-wrap">
-    <span className="timesegment-left">每日生效时段</span>
+    <span className="timesegment-left">22222222</span>
     <div className="timesegment-right">
       <TimePicker
         disabledHours={disabledItem('left', 'hour')}

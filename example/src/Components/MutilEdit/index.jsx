@@ -21,7 +21,7 @@ function MutilEdit ({
     renderDeleteNode
   })
 
-  return <div>{renderDOm}</div>
+  return renderDOm
 }
 
 export {

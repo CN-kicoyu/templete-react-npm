@@ -1,30 +1,45 @@
-import React, {useRef} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
 import WeekComponent from './WeekComponent'
 import { isObject } from '../../_utils'
 
-function WeekPicker ({dataSource, value={}, onChange = () => {}}) {
+function WeekPicker ({dataSource = {
+  type: 'radio',
+  name: 'demo',
+  list: [{
+    value: 'demo',
+    label: 'demo'
+  }]
+}, value={}, onChange = () => {}}) {
   if (value && !isObject) {
     throw new Error('initValue must be object')
   }
 
-  const ref = useRef(value)
+  const [val, setVal] = useState(value)
   const prefix = useRef(new Set())
 
   const handleChange = (name, value) => {
+    const oldVal = {...val}
     let arr = Array.from(prefix.current)
     const relyPath = (name) => arr.forEach(x => {
       const temp = x.split('$-$')
-      if (temp[0] === name && ![...value].includes(temp[1])) {
+      if (temp[0] === name && (!value || ![...value].includes(temp[1]))) {
         relyPath(temp[2])
-        delete ref.current[temp[2]]
+        delete oldVal[temp[2]]
       }
     })
     relyPath(name)
-    ref.current[name] = value
-    onChange(ref.current)
+    oldVal[name] = value
+    setVal({...oldVal})
+    onChange(oldVal)
   }
 
-  return <WeekComponent dataSource={dataSource} value={ref.current} onChange={handleChange} prefix={prefix.current}/>
+  useEffect(() => {
+    if (JSON.stringify(value) !== JSON.stringify(val)) {
+      setVal({...value})
+    }
+  }, [JSON.stringify(value)])
+
+  return <WeekComponent dataSource={dataSource} value={val} onChange={handleChange} prefix={prefix.current}/>
 }
 
 export default WeekPicker

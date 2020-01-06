@@ -22,7 +22,6 @@ import { Field, Input, Button } from 'antd';
 class Demo extends React.Component {
   constructor(props) {
       super(props);
-      console.log(props,'999')
 
       this.state = {
           value: typeof props.value === 'undefined' ? [] : props.value
@@ -50,7 +49,7 @@ class Demo extends React.Component {
 
   render() {
       return (<div className="custom">
-          {this.state.value.map((v, i) => {
+          {Array.isArray(this.state.value) && this.state.value.map((v, i) => {
               return <Button key={i} >{v}</Button>;
           })}
           <Button type="primary" onClick={this.onAdd.bind(this)}>Add ＋ </Button>
